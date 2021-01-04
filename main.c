@@ -249,7 +249,6 @@ void askInput3()
 
     size_t lastIndex = lastIndexOf(cad,subCad);
 
-    printf("La primera ocurrencia entre las dos frases de der a izq es: %ld", lastIndex);
 
 }
 
@@ -303,6 +302,7 @@ size_t lastIndexOf(const char *cad, const char *subCad)
     }
 
     size_t occurrencePosition = occurrence - reverseCad;
+
 
     //Get the position occurrence in terms of the straight string.
     size_t position = ((strlen(cad) - 1) - occurrencePosition) - (strlen(subCad) - 1);
