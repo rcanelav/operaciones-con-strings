@@ -2,25 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define HGREEN "\e[0;92m"
-#define WHITE "\e[0;37m"
 
-void nextExcercice();
+//Compare two Case-Sensitive strings
 _Bool equals(const char *str1, const char *str2);
-_Bool equalsNonSensitive(const char *str1, const char *str2);
 void strCompSens();
+//Compare between two Non-Case-Sensitive strings
+_Bool equalsNonSensitive(const char *str1, const char *str2);
 void strCompNoSens();
 void toLowerString(const char *str, char *lowerStr);
+//Prints the string from an introduced index
 void askInput();
 void substring(char *dest, const char *str, size_t pos);
+//Prints the string from an introduced index until another.
 void askInput2();
 void substring2(char *dest, const char *str, size_t pos1, size_t pos2);
+//Analize from right to left first matching string on its frist index.
 void askInput3();
 size_t lastIndexOf(const char *cad, const char *subcad);
 
 int main()
 {
-
     printf("Ingresa la opcion que desees probar\n1.Compara Sensitivamente\n2.Compara No sensitivo\n3.Expone la frase desde el indice que indique\n4.Expone la frase desde y hasta el indice que indique\n5.Da la ocurrencia de la subcadena comparando de derecha a izquierda\n\n");
 
     char opcion = getchar();
@@ -45,8 +46,6 @@ int main()
         break;
     }
 
-
-
 //    strCompSens(); //Compara strings CASE SENSITIVE
 //    nextExcercice();
 //    strCompNoSens(); //Compara strings NO CASE SENSITIVE
@@ -54,13 +53,6 @@ int main()
 //    askInput2();
 //    askInput3();
     return 0;
-}
-
-void nextExcercice()
-{
-    printf(HGREEN"\nPresione cualquier tecla para continuar al siguiente ejercicio\n"WHITE);
-    getchar();
-    while(getchar()!='\n');
 }
 
 _Bool equals(const char *str1, const char *str2)
@@ -84,7 +76,6 @@ _Bool equalsNonSensitive(const char *str1, const char *str2)
 //Acepts an string str to be lowered, and stores the result in lowerStr
 void toLowerString(const char *str, char *lowerStr)
 {
-
     int i = 0;
     while(str[i])
     {
@@ -113,7 +104,6 @@ void strCompSens()
 
 void strCompNoSens()
 {
-
     char str1[50];
     char str2[50];
 
@@ -132,7 +122,6 @@ void strCompNoSens()
 
 void askInput()
 {
-
     char str1[50];
     char str2[50];
     size_t pos;
@@ -141,7 +130,6 @@ void askInput()
     fgets(str1,50,stdin);
     str1[strlen(str1)-1]='\0';
     printf("\nIngrese un numero de posición donde desee insertar la subcadena\n");
-
     scanf("%ld",&pos);
     while(getchar()!='\n');
     substring(str2,str1, pos);
@@ -159,12 +147,10 @@ void substring(char *dest, const char *str, size_t pos)
         j++;
     }
     dest[j]='\0';
-
 }
 
 void askInput2()
 {
-
     char str1[50];
     char str2[50];
     size_t pos1;
@@ -217,12 +203,10 @@ void substring2(char *dest, const char *str, size_t pos1, size_t pos2)
     for(int i = pos1; i <= pos2; i++,j++)
         dest[j]=str[i];
     dest[j]='\0';
-
 }
 
 void askInput3()
 {
-
     char cad[50];
     char subCad[50];
 
@@ -238,33 +222,19 @@ void askInput3()
     if(strlen(cad) == 0 || strlen(subCad) == 0)
     {
         printf("No se admiten cadenas vacias\n");
-        return 0;
+        return;
     }
 
     if (strlen(subCad) > strlen(cad))
     {
         printf("Subcadena no encontrada!\n");
-        return 0;
+        return;
     }
-
-    size_t lastIndex = lastIndexOf(cad,subCad);
-
-
+    lastIndexOf(cad,subCad);
 }
 
-void reverse(char *str, char *reverseStr)
+void reverse(const char *str, char *reverseStr)
 {
-    /*
-     hola
-     0123     strlen = 4
-
-    'hola\0'
-     0123 4
-
-    'aloh\0'
-     0123 4  strlen = 4
-    */
-
     int n = strlen(str);
     reverseStr[n]= '\0';
 
@@ -279,7 +249,7 @@ void reverse(char *str, char *reverseStr)
 size_t lastIndexOf(const char *cad, const char *subCad)
 {
     //Reverse strings
-    char reverseCad[50]; //0x3500
+    char reverseCad[50];
     char reverseSubCad[50];
 
     reverse(cad, reverseCad);
@@ -303,7 +273,6 @@ size_t lastIndexOf(const char *cad, const char *subCad)
 
     size_t occurrencePosition = occurrence - reverseCad;
 
-
     //Get the position occurrence in terms of the straight string.
     size_t position = ((strlen(cad) - 1) - occurrencePosition) - (strlen(subCad) - 1);
     printf("La ultima occurrencia de la subcadena \'%s\' occurre en la posicion: %ld\n\n", subCad, position);
@@ -317,6 +286,7 @@ size_t lastIndexOf(const char *cad, const char *subCad)
         printf("%*d", 3, i);
     printf("\n");
 
+    return position;
 }
 
 
