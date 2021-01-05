@@ -11,18 +11,23 @@ _Bool equalsNonSensitive(const char *str1, const char *str2);
 void strCompNoSens();
 void toLowerString(const char *str, char *lowerStr);
 //Prints the string from an introduced index
-void askInput();
+void strShowFromIndex();
 void substring(char *dest, const char *str, size_t pos);
 //Prints the string from an introduced index until another.
-void askInput2();
+void strShowFromIndexToIndex();
 void substring2(char *dest, const char *str, size_t pos1, size_t pos2);
 //Analize from right to left first matching string on its frist index.
-void askInput3();
+void strShowLastOccurrence();
 size_t lastIndexOf(const char *cad, const char *subcad);
 
 int main()
 {
-    printf("Ingresa la opcion que desees probar\n1.Compara Sensitivamente\n2.Compara No sensitivo\n3.Expone la frase desde el indice que indique\n4.Expone la frase desde y hasta el indice que indique\n5.Da la ocurrencia de la subcadena comparando de derecha a izquierda\n\n");
+    printf("Ingresa la opcion que desees probar\n"
+           "1.Compara dos cadenas (case sensitive)\n"
+           "2.Compara dos cadenas (non-case sensitive)\n"
+           "3.Expone la frase desde la posicion que indique\n"
+           "4.Expone la frase desde la posicion inicial hasta la posicion final que indique\n"
+           "5.Obtener la posicion de la ultima ocurrencia de una subcadena\n\n");
 
     char opcion = getchar();
     while(getchar()!='\n');
@@ -36,22 +41,16 @@ int main()
         strCompNoSens();
         break;
     case '3':
-        askInput();
+        strShowFromIndex();
         break;
     case '4':
-        askInput2();
+        strShowFromIndexToIndex();
         break;
     case '5':
-        askInput3();
+        strShowLastOccurrence();
         break;
     }
 
-//    strCompSens(); //Compara strings CASE SENSITIVE
-//    nextExcercice();
-//    strCompNoSens(); //Compara strings NO CASE SENSITIVE
-//    askInput();
-//    askInput2();
-//    askInput3();
     return 0;
 }
 
@@ -61,16 +60,24 @@ _Bool equals(const char *str1, const char *str2)
     return salida;
 }
 
-_Bool equalsNonSensitive(const char *str1, const char *str2)
+void strCompSens()
 {
-    char lowerStr1[50];
-    char lowerStr2[50];
+    char str1[50];
+    char str2[50];
 
-    toLowerString(str1, lowerStr1);
-    toLowerString(str2, lowerStr2);
+    printf("Ingrese una frase\n");
+    scanf("%[^\n]s",str1);
+    while(getchar() != '\n');
 
-    int salida = strcmp(lowerStr1,lowerStr2);
-    return salida;
+    printf("Ingrese la otra frase a comparar\n");
+    scanf("%[^\n]s",str2);
+    while(getchar() != '\n');
+
+    _Bool iguales = equals(str1,str2);
+    if( iguales == 0)
+        printf("Las frases son iguales\n");
+    else
+        printf("Las frases son distintas\n");
 }
 
 //Acepts an string str to be lowered, and stores the result in lowerStr
@@ -85,21 +92,16 @@ void toLowerString(const char *str, char *lowerStr)
     lowerStr[i]='\0';
 }
 
-void strCompSens()
+_Bool equalsNonSensitive(const char *str1, const char *str2)
 {
-    char str1[50];
-    char str2[50];
+    char lowerStr1[50];
+    char lowerStr2[50];
 
-    printf("Ingrese una frase\n");
-    scanf("%s",str1);
-    printf("Ingrese una frase a comparar\n");
-    scanf("%s",str2);
+    toLowerString(str1, lowerStr1);
+    toLowerString(str2, lowerStr2);
 
-    _Bool iguales = equals(str1,str2);
-    if( iguales == 0)
-        printf("Las frases son iguales\n");
-    else
-        printf("Las frases son distintas\n");
+    int salida = strcmp(lowerStr1,lowerStr2);
+    return salida;
 }
 
 void strCompNoSens()
@@ -108,32 +110,19 @@ void strCompNoSens()
     char str2[50];
 
     printf("Ingrese una frase\n");
-    scanf("%s",str1);
-    printf("Ingrese una frase a comparar\n");
-    scanf("%s",str2);
+    scanf("%[^\n]s", str1);
+    while(getchar() != '\n');
+
+    printf("Ingrese la otra frase a comparar\n");
+    scanf("%[^\n]s", str2);
+    while(getchar() != '\n');
 
     _Bool iguales2 = equalsNonSensitive(str1, str2);
 
-    if( iguales2 == 0)
+    if(iguales2 == 0)
         printf("Las frases son iguales");
     else
         printf("Las frases son distintas");
-}
-
-void askInput()
-{
-    char str1[50];
-    char str2[50];
-    size_t pos;
-
-    printf("Ingrese una frase \n");
-    fgets(str1,50,stdin);
-    str1[strlen(str1)-1]='\0';
-    printf("\nIngrese un numero de posición donde desee insertar la subcadena\n");
-    scanf("%ld",&pos);
-    while(getchar()!='\n');
-    substring(str2,str1, pos);
-    printf("\nLa subcadena es:\"%s\".\n",str2);
 }
 
 void substring(char *dest, const char *str, size_t pos)
@@ -149,25 +138,19 @@ void substring(char *dest, const char *str, size_t pos)
     dest[j]='\0';
 }
 
-void askInput2()
+void strShowFromIndex()
 {
     char str1[50];
     char str2[50];
-    size_t pos1;
-    size_t pos2;
+    size_t pos;
 
     printf("Ingrese una frase \n");
     fgets(str1,50,stdin);
-    str1[strlen(str1)-1]='\0';
-
-    printf("\nIngrese un numero de posición donde desee iniciar la subcadena\n");
-    scanf("%ld",&pos1);
+    str1[strlen(str1)-1]='\0'; //discard the newline char
+    printf("\nIngrese un numero de posicion donde desee obtener la subcadena\n");
+    scanf("%ld",&pos);
     while(getchar()!='\n');
-    printf("\nIngrese un numero de posición hasta donde desee leer la subcadena\n");
-    scanf("%ld",&pos2);
-    while(getchar()!='\n');
-
-    substring2(str2,str1, pos1, pos2);
+    substring(str2, str1, pos);
     printf("\nLa subcadena es:\"%s\".\n",str2);
 }
 
@@ -200,12 +183,34 @@ void substring2(char *dest, const char *str, size_t pos1, size_t pos2)
         pos2 = strlen(str)-1;
     }
 
-    for(int i = pos1; i <= pos2; i++,j++)
+    for(int i = pos1; i <= pos2 ; i++,j++)
         dest[j]=str[i];
     dest[j]='\0';
 }
 
-void askInput3()
+void strShowFromIndexToIndex()
+{
+    char str1[50];
+    char str2[50];
+    size_t pos1;
+    size_t pos2;
+
+    printf("Ingrese una frase \n");
+    fgets(str1,50,stdin);
+    str1[strlen(str1)-1]='\0';
+
+    printf("\nIngrese un numero de posicion donde desee iniciar la subcadena\n");
+    scanf("%ld",&pos1);
+    while(getchar()!='\n');
+    printf("\nIngrese un numero de posicion hasta donde desee leer la subcadena\n");
+    scanf("%ld",&pos2);
+    while(getchar()!='\n');
+
+    substring2(str2,str1, pos1, pos2);
+    printf("\nLa subcadena es:\"%s\".\n",str2);
+}
+
+void strShowLastOccurrence()
 {
     char cad[50];
     char subCad[50];
@@ -288,6 +293,4 @@ size_t lastIndexOf(const char *cad, const char *subCad)
 
     return position;
 }
-
-
 
